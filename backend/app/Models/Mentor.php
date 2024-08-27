@@ -37,4 +37,22 @@ class Mentor extends Authenticatable
     {
         static::creating(fn(Mentor $mentor) => $mentor->id = Str::uuid());
     }
+
+    public static function filter($name, $cpf, $email)
+    {
+        $query = static::query();
+        if ($name) {
+            $query->where('name', 'like', "%$name%");
+        }
+
+        if ($cpf) {
+            $query->where('cpf', 'like', '%' . $cpf . '%');
+        }
+
+        if ($email) {
+            $query->where('email', 'like', '%' . $email . '%');
+        }
+
+        return $query;
+    }
 }

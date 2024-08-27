@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Validation\UnauthorizedException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -30,6 +31,12 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => 'Mentor with ID ' . $request->route()->mentor . ' not found.',
             ], 404);
+        });
+
+        $this->renderable(function (UnauthorizedException $e, $request) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 400);
         });
     }
 }
