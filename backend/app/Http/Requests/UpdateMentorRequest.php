@@ -9,13 +9,13 @@ use Illuminate\Validation\Rule;
 
 class UpdateMentorRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
     public function authorize(): bool
     {
-        $isAdminUser = Auth::user()->role === RoleEnum::ADMIN->value;
-        return $isAdminUser;
+        $isAdminMentor = Auth::user()->role === RoleEnum::ADMIN->value;
+        $isOwnAccountMentor = Auth::user()->id === $this->route()->mentor->id;
+
+        return $isAdminMentor || $isOwnAccountMentor;
     }
 
     /**

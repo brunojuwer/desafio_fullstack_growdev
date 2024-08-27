@@ -9,9 +9,7 @@ use Illuminate\Validation\Rule;
 
 class StoreMentorRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
     public function authorize(): bool
     {
         $isAdminUser = Auth::user()->role === RoleEnum::ADMIN->value;
@@ -33,6 +31,7 @@ class StoreMentorRequest extends FormRequest
             'cpf' => 'required|string|size:14|unique:mentors',
         ];
     }
+
     public function messages()
     {
         return [

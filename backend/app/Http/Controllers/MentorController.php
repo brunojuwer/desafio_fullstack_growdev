@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMentorRequest;
 use App\Http\Requests\UpdateMentorRequest;
 use App\Models\Mentor;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MentorController extends Controller
