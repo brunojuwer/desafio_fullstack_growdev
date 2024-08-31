@@ -2,10 +2,14 @@
 import { login } from '@/services/api';
 import logoGrowDev from '@/assets/logo-growdev.png';
 import { resetStorage } from '@/services/authentication';
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { setLocalMentorData } from '@/services/mentorStorage';
-import type { LoginMentorValidationType } from '@/types';
+import {
+  clearValidationErrors,
+  setValidationErrors,
+  validationErrors
+} from '@/services/messages/loginErrors';
 
 const email = ref<string>('');
 const password = ref<string>('');
@@ -14,17 +18,6 @@ const error = ref<string>('');
 const router = useRouter();
 
 const submitting = ref(false);
-
-const validationErrors = reactive<LoginMentorValidationType>({
-  email: [],
-  password: []
-});
-
-function clearValidationErrors() {
-  for (const key in validationErrors) {
-    validationErrors[key as keyof LoginMentorValidationType] = [];
-  }
-}
 
 async function handleLogin() {
   resetStorage();
@@ -45,9 +38,7 @@ async function handleLogin() {
     router.push('/');
   } else if (response.status === 422) {
     const errors = response.data.errors;
-    for (const key in errors) {
-      validationErrors[key as keyof LoginMentorValidationType] = errors[key];
-    }
+    setValidationErrors(errors);
   } else {
     error.value = response.data.message;
   }

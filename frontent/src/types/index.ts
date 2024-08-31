@@ -7,6 +7,8 @@ export interface MentorType {
   role?: 'ADMIN' | 'VIEWER';
 }
 
+export interface DefaultValidationType {}
+
 export interface RegisterMentorValidationType {
   name: [];
   email: [];
@@ -15,7 +17,7 @@ export interface RegisterMentorValidationType {
   role?: [];
 }
 
-export interface LoginMentorValidationType {
+export interface LoginMentorValidationType extends DefaultValidationType {
   email: [];
   password: [];
 }
