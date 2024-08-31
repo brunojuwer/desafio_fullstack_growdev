@@ -12,4 +12,5 @@ export interface RegisterMentorValidationType {
   email: [];
   cpf: [];
   password?: [];
+  role?: [];
 }

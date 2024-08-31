@@ -12,14 +12,16 @@ const mentor = reactive<MentorType>({
   name: '',
   cpf: '',
   email: '',
-  password: ''
+  password: '',
+  role: 'VIEWER'
 });
 
 const validationErrors = reactive<RegisterMentorValidationType>({
   name: [],
   email: [],
   password: [],
-  cpf: []
+  cpf: [],
+  role: []
 });
 
 function clearValidationErrors() {
@@ -29,6 +31,7 @@ function clearValidationErrors() {
 }
 
 const dialog = ref(props.dialogProp);
+const submitting = ref(false);
 
 const emit = defineEmits(['update:dialogProp', 'mentorCreated']);
 
@@ -49,8 +52,10 @@ watch(dialog, (newValue) => {
 
 async function save() {
   clearValidationErrors();
+  submitting.value = true;
   const response = await register(mentor);
   if (response.status === 201) {
+    submitting.value = false;
     emit('mentorCreated');
     dialog.value = false;
     mentor.id = '';
@@ -59,6 +64,7 @@ async function save() {
     mentor.email = '';
     mentor.password = '';
   } else if (response.status === 422) {
+    submitting.value = false;
     const errors = response.data.errors;
     for (const key in errors) {
       validationErrors[key as keyof RegisterMentorValidationType] = errors[key];
@@ -70,9 +76,7 @@ async function save() {
 <template>
   <v-dialog max-width="500px" v-model="dialog">
     <v-card>
-      <v-card-title>
-        <span class="text-h5">Create new mentor</span>
-      </v-card-title>
+      <v-card-title class="text-h5 text-center mt-3"> Create new mentor </v-card-title>
 
       <v-card-text>
         <v-text-field
@@ -96,12 +100,20 @@ async function save() {
           type="password"
           :error-messages="validationErrors.password"
         ></v-text-field>
+        <v-select
+          v-model="mentor.role"
+          :error-messages="validationErrors.role"
+          :items="['VIEWER', 'ADMIN']"
+          label="Role"
+        ></v-select>
       </v-card-text>
 
-      <v-card-actions>
+      <v-card-actions class="my-2">
         <v-spacer></v-spacer>
-        <v-btn color="blue-darken-1" variant="text" @click="() => (dialog = false)"> Cancel </v-btn>
-        <v-btn color="blue-darken-1" variant="text" @click="save"> Create </v-btn>
+        <v-btn color="red-darken-1" variant="text" @click="() => (dialog = false)"> Cancel </v-btn>
+        <v-btn color="blue-darken-1" :loading="submitting" variant="text" @click="save">
+          Create
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

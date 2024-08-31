@@ -16,6 +16,7 @@ const mentor = reactive<MentorType>({
 });
 
 const dialog = ref(props.dialogProp);
+const submitting = ref(false);
 
 const emit = defineEmits(['update:dialogProp', 'mentorDeleted']);
 
@@ -46,8 +47,10 @@ watch(dialog, (newValue) => {
 });
 
 async function destroyMentor() {
+  submitting.value = true;
   const response = await destroy(mentor.id);
   if (response.status === 200) {
+    submitting.value = false;
     emit('mentorDeleted');
   }
   dialog.value = false;
@@ -64,7 +67,7 @@ async function destroyMentor() {
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue-darken-1" variant="text" @click="() => (dialog = false)"> Cancel </v-btn>
-        <v-btn color="red" variant="text" @click="destroyMentor">OK</v-btn>
+        <v-btn color="red" variant="text" :loading="submitting" @click="destroyMentor">OK</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
