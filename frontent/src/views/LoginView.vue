@@ -24,11 +24,13 @@ const handleLogin = async () => {
 
   if (response.status === 201 && keepConnected.value) {
     localStorage.setItem('access_token', response.data.access_token);
-    // localStorage.setItem('userData', JSON.stringify(response.data.data.user));
+    localStorage.setItem('mentor_name', response.data.mentor_name);
+    localStorage.setItem('mentor_role', response.data.mentor_role);
     router.push('/');
   } else if (response.status === 201 && !keepConnected.value) {
-    sessionStorage.setItem('access_token', response.data.token);
-    // localStorage.setItem('userData', JSON.stringify(response.data.data.user));
+    sessionStorage.setItem('access_token', response.data.access_token);
+    localStorage.setItem('mentor_name', response.data.mentor_name);
+    localStorage.setItem('mentor_role', response.data.mentor_role);
     router.push('/');
   }
 

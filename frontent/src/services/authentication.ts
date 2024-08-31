@@ -10,5 +10,7 @@ export function getMentorToken() {
 
 export function resetStorage() {
   localStorage.removeItem('access_token');
+  localStorage.removeItem('mentor_name');
+  localStorage.removeItem('mentor_role');
   sessionStorage.removeItem('access_token');
 }

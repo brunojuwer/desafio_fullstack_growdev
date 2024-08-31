@@ -34,7 +34,10 @@ export async function logout() {
 
 export async function register(mentor: MentorType) {
   try {
-    return await client.post('/mentors', mentor);
+    const config = {
+      headers: { Authorization: `Bearer ${getMentorToken()}` }
+    };
+    return await client.post('/mentors', mentor, config);
   } catch (error: any) {
     return error?.response;
   }
@@ -63,14 +66,13 @@ export async function retrieveMentors(query: string) {
   }
 }
 
-export async function destroy(id: number) {
+export async function destroy(id: string | undefined) {
   const config = {
     headers: { Authorization: `Bearer ${getMentorToken()}` }
   };
   try {
-    await client.delete(`/mentors/${id}`, config);
-    return true;
-  } catch (error) {
-    return false;
+    return await client.delete(`/mentors/${id}`, config);
+  } catch (error: any) {
+    return error?.response;
   }
 }
