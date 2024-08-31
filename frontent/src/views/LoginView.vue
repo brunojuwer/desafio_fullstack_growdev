@@ -2,9 +2,10 @@
 import { login } from '@/services/api';
 import logoGrowDev from '@/assets/logo-growdev.png';
 import { resetStorage } from '@/services/authentication';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { setLocalMentorData } from '@/services/mentorStorage';
+import type { LoginMentorValidationType } from '@/types';
 
 const email = ref<string>('');
 const password = ref<string>('');
@@ -14,8 +15,20 @@ const router = useRouter();
 
 const submitting = ref(false);
 
+const validationErrors = reactive<LoginMentorValidationType>({
+  email: [],
+  password: []
+});
+
+function clearValidationErrors() {
+  for (const key in validationErrors) {
+    validationErrors[key as keyof LoginMentorValidationType] = [];
+  }
+}
+
 async function handleLogin() {
   resetStorage();
+  clearValidationErrors();
   error.value = '';
   submitting.value = true;
   const response = await login(email.value, password.value);
@@ -30,9 +43,14 @@ async function handleLogin() {
     sessionStorage.setItem('access_token', response.data.access_token);
     setLocalMentorData(response);
     router.push('/');
+  } else if (response.status === 422) {
+    const errors = response.data.errors;
+    for (const key in errors) {
+      validationErrors[key as keyof LoginMentorValidationType] = errors[key];
+    }
+  } else {
+    error.value = response.data.message;
   }
-
-  error.value = response.data.message;
 }
 </script>
 
@@ -41,8 +59,17 @@ async function handleLogin() {
     <v-img :src="logoGrowDev" alt="Logo GrowDev" :width="100" class="mx-auto my-5" />
     <v-card-title class="text-center my-5 text-h4">Login Mentors</v-card-title>
 
-    <v-text-field label="Email" v-model="email"></v-text-field>
-    <v-text-field type="password" label="Password" v-model="password"></v-text-field>
+    <v-text-field
+      :error-messages="validationErrors.email"
+      label="Email"
+      v-model="email"
+    ></v-text-field>
+    <v-text-field
+      :error-messages="validationErrors.password"
+      type="password"
+      label="Password"
+      v-model="password"
+    ></v-text-field>
 
     <div class="keep-connected-container">
       <label for="keep-connected">Keep connected:</label>

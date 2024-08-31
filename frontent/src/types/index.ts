@@ -14,3 +14,8 @@ export interface RegisterMentorValidationType {
   password?: [];
   role?: [];
 }
+
+export interface LoginMentorValidationType {
+  email: [];
+  password: [];
+}
