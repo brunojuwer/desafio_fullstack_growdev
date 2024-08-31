@@ -19,6 +19,8 @@ const dialog = ref(props.dialogProp);
 
 const emit = defineEmits(['update:dialogProp', 'mentorUpdated']);
 
+const submitting = ref(false);
+
 watch(
   () => props.mentorProp,
   (newValue) => {
@@ -45,8 +47,10 @@ watch(dialog, (newValue) => {
   }
 });
 
-async function save() {
+async function handleEdit() {
+  submitting.value = true;
   const response = await update(mentor);
+  submitting.value = false;
   if (response.status === 200) {
     emit('mentorUpdated');
   }
@@ -70,7 +74,9 @@ async function save() {
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue-darken-1" variant="text" @click="() => (dialog = false)"> Cancel </v-btn>
-        <v-btn color="blue-darken-1" variant="text" @click="save"> Save </v-btn>
+        <v-btn color="blue-darken-1" variant="text" :loading="submitting" @click="handleEdit">
+          Save
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
