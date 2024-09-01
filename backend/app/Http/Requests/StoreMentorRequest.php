@@ -12,15 +12,10 @@ class StoreMentorRequest extends FormRequest
 
     public function authorize(): bool
     {
-        $isAdminUser = Auth::user()->role === RoleEnum::ADMIN->value;
-        return $isAdminUser;
+        $isAdminMentor = Auth::user()->role === RoleEnum::ADMIN->value;
+        return $isAdminMentor;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules()
     {
         return [

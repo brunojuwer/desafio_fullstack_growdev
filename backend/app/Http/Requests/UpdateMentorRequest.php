@@ -18,11 +18,6 @@ class UpdateMentorRequest extends FormRequest
         return $isAdminMentor || $isOwnAccountMentor;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         $mentorId = (string) $this->route()->mentor->id;

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMentorRequest;
 use App\Http\Requests\UpdateMentorRequest;
 use App\Models\Mentor;
+use App\Models\RoleEnum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class MentorController extends Controller
@@ -13,13 +15,18 @@ class MentorController extends Controller
 
     public function index(Request $request)
     {
-
-        $name = $request->query('name');
-        $cpf = $request->query('cpf');
-        $email = $request->query('email');
+        /**
+         * URL example:
+         * http://localhost:8000/api/mentors?per_page=10&page=2&searchBy=er&sortBy=name&orderBy=asc
+         */
+        $search = $request->query('searchBy', '');
         $perPage = $request->query('per_page', 10);
+        $order = $request->query('orderBy', 'desc');
+        $sort = $request->query('sortBy', 'updated_at');
 
-        $query = Mentor::filter($name, $cpf, $email);
+
+        $query = Mentor::search($search);
+        $query->orderBy($sort, $order);
 
         return response()->json([
             'message' => 'Successfully retrieved mentors',
@@ -59,6 +66,13 @@ class MentorController extends Controller
 
     public function destroy(Mentor $mentor)
     {
+
+        if (Auth::user()->role !== RoleEnum::ADMIN->value) {
+            return response()->json([
+                'message' => 'Unauthorized action.',
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $mentor->delete();
 
         return response()->json([
