@@ -2,6 +2,7 @@
 import { reactive, ref, watch } from 'vue';
 import type { MentorType, RegisterMentorValidationType } from '@/types';
 import { register } from '@/services/api';
+import { cpfFormatter } from '@/services/dataFormatters';
 
 const props = defineProps<{
   dialogProp: boolean;
@@ -93,6 +94,7 @@ async function save() {
           v-model="mentor.cpf"
           label="CPF"
           :error-messages="validationErrors.cpf"
+          @input="mentor.cpf = cpfFormatter(mentor.cpf)"
         ></v-text-field>
         <v-text-field
           v-model="mentor.password"
