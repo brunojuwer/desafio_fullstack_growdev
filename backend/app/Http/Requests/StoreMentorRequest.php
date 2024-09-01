@@ -42,13 +42,13 @@ class StoreMentorRequest extends FormRequest
 
             'password.required' => 'The password field is required.',
             'password.string' => 'The password must be a string.',
-            'password.min' => 'The password must be at least 8 characters.',
+            'password.min' => 'The password must be at least 5 characters.',
 
             'role.enum' => 'The selected role is invalid. Please choose either "ADMIN" or "VIEWER".',
 
             'cpf.required' => 'The CPF field is required.',
             'cpf.string' => 'The CPF must be a string.',
-            'cpf.size' => 'The CPF must be exactly 11 characters.',
+            'cpf.size' => 'The CPF must be exactly 14 characters.',
             'cpf.unique' => 'The CPF has already been taken.',
         ];
     }

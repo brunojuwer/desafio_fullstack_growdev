@@ -33,4 +33,19 @@ class UpdateMentorRequest extends FormRequest
             ],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'The name field is required.',
+            'name.string' => 'The name must be a string.',
+            'name.max' => 'The name may not be greater than 255 characters.',
+
+            'email.required' => 'The email field is required.',
+            'email.string' => 'The email must be a string.',
+            'email.email' => 'The email must be a valid email address.',
+            'email.max' => 'The email may not be greater than 255 characters.',
+            'email.unique' => 'The email has already been taken.',
+        ];
+    }
 }
