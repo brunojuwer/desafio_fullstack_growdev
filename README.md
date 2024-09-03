@@ -40,7 +40,7 @@ npm install
 #### Rodar o frontend
 
 ```bash
-npm install
+npm run dev
 ```
 
 ---
