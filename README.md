@@ -19,6 +19,9 @@ php artisan migrate
 ```bash
 php artisan db:seed
 ```
+Credênciais do usuário após o seed:
+ - emai: admin@email.com
+ - senha: password
 
 
 #### Subir o servidor de desenvolvimento da API
