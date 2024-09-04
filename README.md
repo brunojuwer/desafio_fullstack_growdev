@@ -5,9 +5,20 @@
 - Autenticação e autorização.
 - Filtro e busca por Nome, E-mail e CPF.
 
+---
+
+#### Configurações para rodar o projeto
+Após clonar o repo entre na pasta `backend` e crie um arquivo chamado `.env` ou apenas renomeie o arquivo `.env.example`;
+- OBS: é necessário configurar a conexão com o banco de dados mysql.
+
 #### Instalação das dependências do backend
 ```bash
 composer install
+```
+
+#### Gerar a APP_KEY da API
+```bash
+php artisan key:generate
 ```
 
 #### Rodar as migrations do banco
