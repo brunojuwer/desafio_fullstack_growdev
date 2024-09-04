@@ -41,9 +41,9 @@ php artisan serve
 ```
 
 ----
-Após clonar o repo entre na pasta frontend e crie um arquivo chamado .env ou apenas renomeie o arquivo .env.example;
 
 #### Instalar as dependências do frontend
+Entre na pasta frontend e crie um arquivo chamado .env ou apenas renomeie o arquivo .env.example;
 
 ```bash
 npm install
