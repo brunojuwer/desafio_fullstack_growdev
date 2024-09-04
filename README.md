@@ -47,11 +47,14 @@ npm run dev
 
 ## Imagens das telas
 
+### Tela do mentor com permissão de ADMIN
+![image](https://github.com/user-attachments/assets/08e1efd6-29dd-4484-a7cc-ec011e966d0a)
+
+### Tela do mentor com permissão de VIEWER
+![image](https://github.com/user-attachments/assets/a7f4b6fa-fb58-4c1b-96b8-54f026028e2d)
+
 ### Tela de Login
 ![image](https://github.com/user-attachments/assets/4899a37d-e07c-4f3e-bf7d-ecee45b1b370)
-
-### Tela principal
-![image](https://github.com/user-attachments/assets/6d16f9b6-05ec-4305-9fd8-75dcd0cc2177)
 
 ### Modal de criação de mentor
 ![image](https://github.com/user-attachments/assets/2450e58a-5c5b-4ce5-a863-f52e22233627)
